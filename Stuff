@@ -117,3 +117,23 @@ Clover:Toggle({
         end
     end
  })
+
+ local isToggled = false
+ 
+ Clover:Toggle({
+    Name = "Auto Collect Hoppers Loot",
+    Default = false,
+    Callback = function(var)
+        isToggled = var
+        if isToggled then
+            task.spawn(function()
+                while isToggled do
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Clovers_HopperClaim"):InvokeServer()
+                    task.wait(5)
+                end
+            end)
+        else
+            isToggled = false
+        end
+    end
+ })
